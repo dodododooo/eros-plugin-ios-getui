@@ -1,7 +1,7 @@
 # coding: utf-8
 Pod::Spec.new do |s|
   s.name         = "ErosPluginGeTui"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "ErosPluginGeTui Source ."
   s.homepage     = 'https://github.com/LiHuiZai/eros-plugin-ios-getui'
   s.license      = "MIT"

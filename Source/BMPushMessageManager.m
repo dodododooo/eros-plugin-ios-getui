@@ -236,20 +236,21 @@
 
 + (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSString *token = [self hexadecimalString:deviceToken];
-    [BMPushMessageManager shareInstance]->_deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    WXLogInfo(@"deviceToken:%@", [BMPushMessageManager shareInstance]->_deviceToken);
-    NSUInteger length = [deviceToken length];
-    char *chars = (char *)[deviceToken bytes];
-    NSMutableString *hexString = [[NSMutableString alloc] init];
-    for (NSUInteger i = 0; i < length; i++) {
-     [hexString appendString:[NSString stringWithFormat:@"%0.2hhx", chars[i]]];
+    if (@available(iOS 13.0, *)) {
+       NSUInteger length = [deviceToken length];
+       char *chars = (char *)[deviceToken bytes];
+       NSMutableString *hexString = [[NSMutableString alloc] init];
+       for (NSUInteger i = 0; i < length; i++) {
+        [hexString appendString:[NSString stringWithFormat:@"%0.2hhx", chars[i]]];
+       }
+       [BMPushMessageManager shareInstance]->_deviceToken=hexString;
+    }else{
+       NSString *token = [self hexadecimalString:deviceToken];
+       [BMPushMessageManager shareInstance]->_deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     }
-    
-    [BMPushMessageManager shareInstance]->_deviceToken=hexString;
-
-    // [3]:向个推服务器注册deviceToken
-    [GeTuiSdk registerDeviceToken:hexString];
+       WXLogInfo(@"deviceToken:%@", [BMPushMessageManager shareInstance]->_deviceToken);
+       // [3]:向个推服务器注册deviceToken
+       [GeTuiSdk registerDeviceToken:[BMPushMessageManager shareInstance]->_deviceToken];
 }
 
 + (NSString *)hexadecimalString:(NSData *)data 
