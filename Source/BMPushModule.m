@@ -4,11 +4,10 @@
 //
 //  Created by XHY on 2018/4/12.
 //
-
 #import "BMPushModule.h"
 #import <WeexPluginLoader/WeexPluginLoader/WeexPluginLoader.h>
 #import "NSDictionary+Util.h"
-#import <GTSDK/GeTuiSdk.h>
+
 
 WX_PlUGIN_EXPORT_MODULE(bmPush, BMPushModule)
 
@@ -26,7 +25,7 @@ WX_EXPORT_METHOD(@selector(initPush:));
 /** 获取 cid */
 -(void)getCid:(WXModuleCallback)callback
 {
-    NSString * cid = [GeTuiSdk clientId];
+    NSString * cid = [[NSUserDefaults standardUserDefaults] objectForKey:@"getui_cid"];
     NSInteger resCode = cid.length > 0 ? BMResCodeSuccess : BMResCodeError;
     
     if (callback) {
