@@ -6,9 +6,9 @@
 //
 
 #import "BMPushModule.h"
-#import "BMPushMessageManager.h"
 #import <WeexPluginLoader/WeexPluginLoader/WeexPluginLoader.h>
 #import "NSDictionary+Util.h"
+#import <GTSDK/GeTuiSdk.h>
 
 WX_PlUGIN_EXPORT_MODULE(bmPush, BMPushModule)
 
@@ -20,14 +20,13 @@ WX_EXPORT_METHOD(@selector(getCid:));
 WX_EXPORT_METHOD(@selector(initPush:));
 
 - (void)initPush:(NSDictionary *)info
-{    
-    [[BMPushMessageManager shareInstance] configPushService:info];
+{
 }
 
 /** 获取 cid */
 -(void)getCid:(WXModuleCallback)callback
 {
-    NSString * cid = [BMPushMessageManager getCid];
+    NSString * cid = [GeTuiSdk clientId];
     NSInteger resCode = cid.length > 0 ? BMResCodeSuccess : BMResCodeError;
     
     if (callback) {
